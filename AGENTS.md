@@ -1,9 +1,18 @@
-<!-- BEGIN:nextjs-agent-rules -->
+# Notas para agentes
 
-# This is NOT the Next.js you know
+Sitio de ED'S HOUSE. **Next.js 15** (App Router) + TypeScript + Tailwind **v4** + Motion + Lenis.
+Leer el `README.md` antes de tocar algo: ahí está dónde vive el contenido y qué decisiones no conviene deshacer.
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+## Reglas del proyecto
 
-This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
-
-<!-- END:nextjs-agent-rules -->
+- **Contenido → `lib/content.ts`.** Nada de copy, precios, sucursales ni links hardcodeados
+  en componentes. Si hace falta un dato nuevo, se agrega ahí con su tipo.
+- **No inventar datos de negocio.** Precios sin confirmar van `precio: null` (la UI muestra
+  "Consultar"). No hay direcciones exactas de sucursal ni dominio propio todavía.
+- **Motion se importa de `motion/react`**, nunca de `framer-motion`, y siempre como `m.*`
+  (el provider usa `LazyMotion strict`; un `motion.*` tira error en runtime).
+- **`overflow-x: clip`, nunca `hidden`, en `html`/`body`** — con Lenis, `hidden` rompe todo
+  el `position: sticky` sin dar error.
+- **Tailwind v4 sin `tailwind.config.js`.** Tokens, breakpoints (`tab` 761px, `desk` 901px)
+  y utilidades propias se declaran en `app/globals.css` con `@theme` y `@utility`.
+- Antes de dar algo por terminado: `npm run typecheck && npm run lint && npm run build`.
